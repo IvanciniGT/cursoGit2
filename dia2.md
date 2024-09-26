@@ -136,8 +136,8 @@ Más peligroso, porque implica REESCRIBIR COMMITS DEL HISTORIAL ! Voy a mentir!
     develop -> suma -> resta ------------> multiplicacion
                           \             / ff             
         R1 -------------- resta -> multiplicacion        
-                                        \                
-                R2 -------------- multiplicacion -> division' -> valor absoluto'
+                                          \                
+                  R2 -------------- multiplicacion -> division' -> valor absoluto'
 
     Y si miro el historial en develop:
         - suma
