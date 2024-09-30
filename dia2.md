@@ -15,6 +15,13 @@
 - Controlar el historial
   - Asegurarme que no genero commits que no aportan. 1 COMMIT = 1 FUNCIONALIDAD. REGLA DE ORO !
     amend 
+
+        C1 ( está funcionando el R17... aleluya!!!)
+        C1.5 Que ahora también el 18
+        C2... Mierda que no... que me ha fallao algo en el R17... Pero ahora si que si
+        C3... Cago en diez.... pues pensaba que si... pero resulta no... ero ahora si que que si de verdad de la buena...
+        ...
+
   - Y a veces los generaré (LOS VOY A GENERAR SEGURO). No pasa nada... pero luego los limpio
     reset 
         soft
@@ -58,13 +65,19 @@ develop - desarrollo - dev                                                      
 release                                                                        //  PREPRODUCCION / PRUEBAS
 
     Donde hago las pruebas de SISTEMA
-
+    
+                                    -- hotfix1   C5 -> CHF1 (Se libera a producción)
+                                                /
                                   ---main      C5
-                                              /         Si permito commit habitualmente es para integrar. Decidir qué va a prod
-                            ---release C4 -> C5    (Y esto tengo que plantearme si lo permito?) 
-                                       /               Si soy conservador NI DE COÑA. Si soy práctico, 
-                                      /                BUENO... Pero apechuga.
-    --- develop -> C1 -> C2 -> C3 -> C4 -> 
+                                              /          Si permito commit habitualmente es para integrar. Decidir qué va a prod
+                            ---release C4 -> C5      C7  (Y esto tengo que plantearme si lo permito?) 
+                                       /            /    Si soy conservador NI DE COÑA. Si soy práctico, 
+                                      /            /     BUENO... Pero apechuga.
+    --- develop -> C1 -> C2 -> C3 -> C4 -> C6 -> C7 -> C7-HF1
+
+
+    En git un commit no es un cambio,.. y para hacer algo como llevarme el CAMBIO realizado en el HF1 al C7, lo primero que necesito es IDENTIFICAR el cambio: calcular el PATCH: git diff CHF1 C5 -> Diferencias = PATCH = CAMBIO  \
+    Y esas diferencias, las quiero aplicar sobre el C7  -> git apply PATCH                      / git cherry-pick CHF1
 
 COMO SE COPIAN COMMITS A OTRAS RAMAS?       MERGE DE TIPO FAST FORWARD: Copiar un commit a otra rama.
 En main, solo se deben permitir merges de tipo ff ( Por cierto... en un merge de tipo ff... si solo copio un commit a otra rama
@@ -75,7 +88,7 @@ A priori git, si intento hacer un merge de tipo ff y ha habido cambios en la ram
 Y en develop? SOLO fast-forward... y ni suplicándolo debería permitir aquí otra cosa
 Por qué? Mientras haya un conflicto, nadie puede trabajar con la rama. Quien cojones se ha creido alguien para venir a joder la rama donde trabaja todo el mundo.
 
-En proyectos sencillos, si podemos usar la ramma develop. Y no pasa nada. Y puede ser que alguien genere conflicto.. bueno... EN SU LOCAL!
+En proyectos sencillos, si podemos usar la rama develop. Y no pasa nada. Y puede ser que alguien genere conflicto.. bueno... EN SU LOCAL!
 
 En proyectos más grandes, no vale esta forma de trabajo. Y lo primero abrimos ramas por feature: Un requisito o paquete de Requisitos
 
@@ -96,6 +109,18 @@ R1, R2, R3
                                     release  --- valor absoluto -> quito multiplicar
                                                     /
 --- develop -> suma -> resta -> multiplicar -> valor absoluto
+
+Antes de subir de una rama release a la rama develop, necesitaría asegurarme que:
+- Tengo en mi rama los últimos cambios de la rama develop.
+- Que MI código funciona:
+  - Por si solo               Pruebas unitarias. Si no se superan: NO HAY PARTY !!!! No sube a develop
+  - Integrado con lo demás    Pruebas de integración. Si no se superan: NO HAY PARTY !!!! No sube a develop
+
+Si dejo a la buena voluntad de mis desarrolladores el validar esto, que ocurrirá? Voy a acabar con un desmadre!
+Y por eso tendemos a proteger ramas.. ese es un mínimo.
+Yo a hacer que a la rama dev solo pueda subir JENKINS, como parte de un pipeline donde antes se ha forzado la ejecución de pruebas unitarias y de integración... y si no pasan no sube a dev.
+Y digo... pues sabes que... hago 4 pruebas de mierda y engaño al Jenkins... y subo a dev... Y es verdad que puedes hacer esto...
+Pero al Sonar No le engañas... Que te va a mirar la cobertura de código... es decir, el porcentaje de código que está siendo ejecutado al ejecutarse las pruebas... Y si no llega a un mínimo 80-90%... NO SUBE A DEV.
 
 
 ## MERGES
