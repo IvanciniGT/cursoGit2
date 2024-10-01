@@ -328,3 +328,9 @@ Siempre, antes de un rebase interactivo, hacer un backup del repositorio: Copio 
 
 Esas tareas que elijo en el rebase interactivo, se ejecutan en orden... de arriba a abajo.
 Algunas generan conflictos... y hay que resolverlos... y luego seguir con el rebase.
+
+
+i PARA EMPEZAR A ESCRIBIR
+ESC PARA DEJAR DE ESCRIBIR
+:q! PARA SALIR SIN GUARDAR
+:wq! PARA SALIR GUARDANDO

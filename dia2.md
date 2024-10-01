@@ -248,3 +248,96 @@ GIT: SCM (Source Code Management)
 
 Escribo código <> Pruebo > REFACTORIZO <> Pruebo > Subo
 - MEJORAR LA MANTENIBILIDAD
+
+
+-------dev--->C10 -------------------> CRa 
+                \                   /
+         ---Ra--C10 ............. CRa (squash)
+                  \              /
+    --RamaIvanRa--C10->C11->C12 /
+
+
+
+TAGS
+
+--> Git HOOK para meter un fin de linea en los ficheros
+
+JAVA
+  maven spotless PALANTIR
+
+  PRE COMMIT: Si voy a dev:
+    mvn test
+      pom.xml           CONFIG DEL PROYECTO ---> Datos identificativos del proyecto (coordenadas) 
+    npm run test                                    ID, VERSION
+      package.json      CONFIG DEL PROYECTO ---> Datos identificativos del proyecto (coordenadas)
+
+  lint
+
+
+
+make
+
+
+ant
+
+
+# Quién establece la versión del proyecto? 
+
+DESARROLLADOR
+
+# Quién es la fuente de verdad de la versión del proyecto? 
+
+GIT
+
+
+Es automatizable el versionado de un proyecto? NI DE COÑA !
+
+
+## Versiones de software
+
+Esquema estándar de versionado de software: MAJOR.MINOR.PATCH 
+                                            1.2.3
+
+            ¿Cuándo cambian?
+1 MAJOR     Breaking changes: Cambios que rompen la compatibilidad
+2 MINOR     Nueva funcionalidad
+            Funcionalidad marcada como deprecated
+3 PATCH     Corrección de bugs
+
+
+Quién sabe esto? UNA MAQUINA ?
+
+En todo momento necesito tener controlada la versión de software en la que estoy trabajando.
+
+Los IDs de commit me valen para algo? Para esto NADA de nada: TAGs
+
+¿Cuándo se pone un tag? Cuando empiezo un desarrollo nuevo
+¿En qué ramas se trabaja con tags? TODAS
+
+                    0.0.1
+                       v
+        master         C3
+                       /  
+    release           C3                            C6               C9
+                     / ^ 0.1.0-rc1                 / ^ 1.0.0-rc1    / ^ 1.0.0-rc2
+  dev-> C1 -> C2 -> C3 -> C4 -> C5 -------------> C6 -> C7-> C8 -> C9
+                                ^ \            /                    ^
+                                0.2.0-dev     /                     1.0.0-dev
+    feature1                        \ C5 -> C6
+                                             ^ 1.0.0-dev-feature1
+
+
+Lo habitual es usar el git para controlar lo tags.
+Cuando abro rama, o subo commit de una rama a otra tengo que gestionar esto.
+Nuevo commit en dev, muevo el tag de -dev
+Abro rama: Nuevo tag, añadiendo sufijo de la rama
+Subo a release: Nuevo tag, añadiendo rc el que toque
+Subo a master: Nuevo tag, añadiendo la versión (quitando los sufijos)
+Y antes de hacer un commit, modifico el archivo de configuración del proyecto : pom.xml, package.json, build.gradle, etc para que refleje la versión que estoy trabajando.
+
+
+Toda la automatización la quiero en .git...
+
+Cuidao ... que hay gente con buena fé que esta metiendo esto en Jenkins... y no es el sitio. GIT es el sitio... porque es el garante de la versión del proyecto: Y para esto están los hooks de git.
+
+MAVEN, NPM, GRADLE, MAKE, ANT, Meto las dependencias.. y en las dependencias tengo que meter las versiones
